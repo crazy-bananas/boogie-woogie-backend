@@ -11,6 +11,7 @@
     "dev:start": "nodemon ./server/server.js"
   },
   "dependencies": {
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "mongoose": "^5.5.14",
     "mongoose-bcrypt": "^1.6.0",
