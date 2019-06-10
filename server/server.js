@@ -5,9 +5,9 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  const user = SongCollection.find();
-  user.then((data) => {
+app.get("/songs", (req, res) => {
+  const songs = SongCollection.find();
+  songs.then((data) => {
     res.send(data);
   });
 });
@@ -26,10 +26,61 @@ app.post("/songs", (req, res, next) => {
     title,
     artist,
     url
-  }).save((err) => {
-    if (err) return next(err);
-    res.redirect("/");
+  }).save((err, song) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.send(song);
   });
+});
+
+app.get("/songs/:titleOrArtist", (req, res, next) => {
+  const songs = SongCollection.find({
+    $or: [
+      {
+        title: {
+          $regex: new RegExp("^" + req.params.titleOrArtist.toLowerCase(), "i")
+        }
+      },
+      {
+        artist: {
+          $regex: new RegExp("^" + req.params.titleOrArtist.toLowerCase(), "i")
+        }
+      }
+    ]
+  });
+
+  songs
+    .then((foundSongs) => {
+      res.send(foundSongs);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+app.get("/songs/:title/:artist/", (req, res, next) => {
+  const { title, artist } = req.params;
+  const song = SongCollection.find({
+    title: {
+      $regex: new RegExp("^" + title.toLowerCase(), "i")
+    },
+    artist: {
+      $regex: new RegExp("^" + artist.toLowerCase(), "i")
+    }
+  });
+  song
+    .then((foundSong) => {
+      res.send(foundSong);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+app.use((err, req, res) => {
+  res.status(500).send("Something broke");
 });
 
 module.exports = app;

@@ -6,6 +6,7 @@ const songSchema = new mongoose.Schema({
   url: { type: String, unique: true }
 });
 
+//songSchema.set("autoIndex", false);
 const SongCollection = mongoose.model("boogie", songSchema, "songs");
 
 module.exports = { SongCollection };
