@@ -1,0 +1,17 @@
+{
+  "name": "boogie-woogie-backend",
+  "version": "1.0.0",
+  "description": "backend for boogie woogie",
+  "main": "index.js",
+  "repository": "https://github.com/crazy-bananas/boogie-woogie-backend",
+  "author": "Johannes Jarbratt and Shruti Jain <johannes.jarbratt+github+shrutiitengg@github.com>",
+  "license": "Unlicensed",
+  "scripts": {
+    "start": "node index.js",
+    "dev:start": "nodemon ./server/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
+  }
+}
