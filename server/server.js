@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/songs", (req, res) => {
+app.get("api/songs", (req, res) => {
   const songs = SongCollection.find();
   songs.then((data) => {
     res.send(data);
@@ -15,7 +15,7 @@ function isValidSongData(title, artist, url) {
   return title && artist && url;
 }
 
-app.post("/songs", (req, res, next) => {
+app.post("api/songs", (req, res, next) => {
   const { title, artist, url } = req.body;
 
   if (!isValidSongData(title, artist, url)) {
@@ -35,7 +35,7 @@ app.post("/songs", (req, res, next) => {
   });
 });
 
-app.get("/songs/:titleOrArtist", (req, res, next) => {
+app.get("api/songs/:titleOrArtist", (req, res, next) => {
   const songs = SongCollection.find({
     $or: [
       {
@@ -60,7 +60,7 @@ app.get("/songs/:titleOrArtist", (req, res, next) => {
     });
 });
 
-app.get("/songs/:title/:artist/", (req, res, next) => {
+app.get("api/songs/:title/:artist/", (req, res, next) => {
   const { title, artist } = req.params;
   const song = SongCollection.find({
     title: {
