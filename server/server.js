@@ -1,9 +1,11 @@
 const express = require("express");
+var bodyParser = require("body-parser");
 const { SongCollection } = require("./models/songs");
 
 const app = express();
 
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 app.get("api/songs", (req, res) => {
   const songs = SongCollection.find();
