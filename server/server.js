@@ -6,8 +6,11 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+app.get("/", function(req, res) {
+  res.send("hello world");
+});
 
-app.get("api/songs", (req, res) => {
+app.get("api/songs", (req, res, next) => {
   const songs = SongCollection.find();
   songs.then(data => {
     res.send(data);
@@ -81,8 +84,8 @@ app.get("api/songs/:title/:artist/", (req, res, next) => {
     });
 });
 
-app.use((err, req, res) => {
-  res.send("Something broke");
-});
+// app.use((err, req, res) => {
+//   res.send("Something broke");
+// });
 
 module.exports = app;
