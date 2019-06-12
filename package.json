@@ -8,8 +8,7 @@
   "license": "Unlicensed",
   "scripts": {
     "start": "node index.js",
-    "dev:start": "nodemon ./server/server.js",
-    "build": "node index.js"
+    "dev:start": "nodemon ./server/server.js"
   },
   "dependencies": {
     "dotenv": "^8.0.0",
