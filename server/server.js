@@ -7,7 +7,7 @@ app.use(express.json());
 
 app.get("api/songs", (req, res) => {
   const songs = SongCollection.find();
-  songs.then((data) => {
+  songs.then(data => {
     res.send(data);
   });
 });
@@ -19,7 +19,7 @@ app.post("api/songs", (req, res, next) => {
   const { title, artist, url } = req.body;
 
   if (!isValidSongData(title, artist, url)) {
-    res.status(400).send("Invalid song data");
+    res.send("Invalid song data");
   }
 
   const newSong = new SongCollection({
@@ -52,10 +52,10 @@ app.get("api/songs/:titleOrArtist", (req, res, next) => {
   });
 
   songs
-    .then((foundSongs) => {
+    .then(foundSongs => {
       res.send(foundSongs);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -71,10 +71,10 @@ app.get("api/songs/:title/:artist/", (req, res, next) => {
     }
   });
   song
-    .then((foundSong) => {
+    .then(foundSong => {
       res.send(foundSong);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
