@@ -9,7 +9,7 @@ const DB_URL = process.env.DB_URL || "boogie-u1a2t.mongodb.net";
 
 const connectDb = () => {
   return mongoose.connect(
-    `mongodb+srv://${DB_USER_NAME}:${DB_PASSWORD}@${DB_URL}/${COLLECTION_NAME_SONGS}?retryWrites=true&w=majority`,
+    `mongodb+srv://${DB_USER_NAME}:${DB_PASSWORD}@boogie-u1a2t.mongodb.net/boogie?retryWrites=true&w=majority`,
     {
       useCreateIndex: true,
       useNewUrlParser: true
