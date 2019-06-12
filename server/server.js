@@ -4,13 +4,12 @@ const { SongCollection } = require("./models/songs");
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.get("/", function(req, res) {
-  res.send("hello world");
+app.use(express.json());
+app.get("/d", function(req, res) {
+  res.send("world");
 });
 
-app.get("api/songs", (req, res, next) => {
+app.get("/api/songs", (req, res, next) => {
   const songs = SongCollection.find();
   songs.then(data => {
     res.send(data);
@@ -20,7 +19,7 @@ function isValidSongData(title, artist, url) {
   return title && artist && url;
 }
 
-app.post("api/songs", (req, res, next) => {
+app.post("/api/songs", (req, res, next) => {
   const { title, artist, url } = req.body;
 
   if (!isValidSongData(title, artist, url)) {
@@ -40,7 +39,7 @@ app.post("api/songs", (req, res, next) => {
   });
 });
 
-app.get("api/songs/:titleOrArtist", (req, res, next) => {
+app.get("/api/songs/:titleOrArtist", (req, res, next) => {
   const songs = SongCollection.find({
     $or: [
       {
@@ -65,7 +64,7 @@ app.get("api/songs/:titleOrArtist", (req, res, next) => {
     });
 });
 
-app.get("api/songs/:title/:artist/", (req, res, next) => {
+app.get("/api/songs/:title/:artist/", (req, res, next) => {
   const { title, artist } = req.params;
   const song = SongCollection.find({
     title: {
