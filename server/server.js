@@ -80,7 +80,7 @@ app.get("api/songs/:title/:artist/", (req, res, next) => {
 });
 
 app.use((err, req, res) => {
-  res.status(500).send("Something broke");
+  res.send("Something broke");
 });
 
 module.exports = app;
