@@ -3,10 +3,12 @@ var bodyParser = require("body-parser");
 const { SongCollection } = require("./models/songs");
 const { MoveCollection } = require("./models/moves");
 const { ScoreCollection } = require("./models/scores");
+var cors = require("cors");
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/api/songs", (req, res, next) => {
   const songs = SongCollection.find();
