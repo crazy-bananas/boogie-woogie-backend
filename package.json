@@ -8,7 +8,7 @@
   "license": "Unlicensed",
   "scripts": {
     "start": "node index.js",
-    "dev:start": "nodemon ./server/server.js"
+    "dev:start": "nodemon index.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const songSchema = new mongoose.Schema({
   title: { type: String },
   artist: { type: String },
-  url: { type: String, unique: true }
+  code: { type: String, unique: true }
 });
 
 //songSchema.set("autoIndex", false);
-const SongCollection = mongoose.model("boogie", songSchema, "songs");
+const SongCollection = mongoose.model("songs", songSchema);
 
 module.exports = { SongCollection };

@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const { SongCollection } = require("./songs");
+const { MoveCollection } = require("./moves");
+const { ScoreCollection } = require("./scores");
 require("dotenv").config();
 
 const COLLECTION_NAME_SONGS = process.env.COLLECTION_NAME_SONGS || "boogie";
@@ -16,9 +18,13 @@ const connectDb = () => {
     }
   );
 };
+let db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 const models = {
-  SongCollection
+  SongCollection,
+  MoveCollection,
+  ScoreCollection
 };
 
 module.exports = { models, connectDb };

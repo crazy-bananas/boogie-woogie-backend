@@ -1,13 +1,12 @@
 const express = require("express");
 var bodyParser = require("body-parser");
 const { SongCollection } = require("./models/songs");
+const { MoveCollection } = require("./models/moves");
+const { ScoreCollection } = require("./models/scores");
 
 const app = express();
 
 app.use(express.json());
-app.get("/d", function(req, res) {
-  res.send("world");
-});
 
 app.get("/api/songs", (req, res, next) => {
   const songs = SongCollection.find();
@@ -15,26 +14,25 @@ app.get("/api/songs", (req, res, next) => {
     res.send(data);
   });
 });
+
 function isValidSongData(title, artist, url) {
   return title && artist && url;
 }
 
 app.post("/api/songs", (req, res, next) => {
-  const { title, artist, url } = req.body;
+  const { title, artist, code } = req.body;
 
-  if (!isValidSongData(title, artist, url)) {
+  if (!isValidSongData(title, artist, code)) {
     res.send("Invalid song data");
   }
-
   const newSong = new SongCollection({
     title,
     artist,
-    url
+    code
   }).save((err, song) => {
     if (err) {
       return next(err);
     }
-
     res.send(song);
   });
 });
@@ -81,6 +79,39 @@ app.get("/api/songs/:title/:artist/", (req, res, next) => {
     .catch(err => {
       next(err);
     });
+});
+
+app.get("/api/moves/:songcode", (req, res, next) => {
+  const moves = MoveCollection.find({ songcode: req.params.songcode });
+  moves
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+function isValidMoveData(songcode, moves, name) {
+  return songcode && moves && name;
+}
+
+app.post("/api/moves", (req, res, next) => {
+  const { songcode, moves, name } = req.body;
+
+  if (!isValidMoveData(songcode, moves, name)) {
+    res.send("Invalid move data");
+  }
+  const newMove = new MoveCollection({
+    songcode,
+    moves,
+    name
+  }).save((err, move) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(move);
+  });
 });
 
 // app.use((err, req, res) => {
