@@ -21,7 +21,8 @@ const singleMoveSchema = new mongoose.Schema({
   leftHip: { type: bodyPart },
   rightHip: { type: bodyPart },
   leftKnee: { type: bodyPart },
-  rightKnee: { type: bodyPart }
+  rightKnee: { type: bodyPart },
+  leftElbow: { type: bodyPart }
 });
 
 const movesSchema = new mongoose.Schema({
