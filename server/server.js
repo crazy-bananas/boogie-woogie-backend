@@ -1,5 +1,7 @@
 const express = require("express");
 var bodyParser = require("body-parser");
+
+const ObjectId = require("mongoose").Types.ObjectId;
 const { SongCollection } = require("./models/songs");
 const { MoveCollection } = require("./models/moves");
 const { ScoreCollection } = require("./models/scores");
@@ -94,20 +96,18 @@ app.get("/api/songs/:title/:artist/", (req, res, next) => {
     });
 });
 
-app.get("/api/moves/:songcode", (req, res, next) => {
-  const moves = MoveCollection.find({ songcode: req.params.songcode });
-  moves
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      next(err);
+app.get("/api/moves/:songcodeOrMoveid", (req, res, next) => {
+  let moves;
+  if (req.params.songcodeOrMoveid.length < 12) {
+    moves = MoveCollection.find({
+      songcode: req.params.songcodeOrMoveid
     });
-});
-
-app.get("/api/moves/:moveId", (req, res, next) => {
-  const move = MoveCollection.find({ _id: req.params.moveId });
-  move
+  } else {
+    moves = MoveCollection.find({
+      _id: req.params.songcodeOrMoveid
+    });
+  }
+  moves
     .then(data => {
       res.send(data);
     })
