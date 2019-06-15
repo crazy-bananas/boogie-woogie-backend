@@ -105,6 +105,17 @@ app.get("/api/moves/:songcode", (req, res, next) => {
     });
 });
 
+app.get("/api/moves/:moveId", (req, res, next) => {
+  const move = MoveCollection.find({ _id: req.params.moveId });
+  move
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 function isValidMoveData(songcode, moves, name) {
   return songcode && moves && name;
 }
