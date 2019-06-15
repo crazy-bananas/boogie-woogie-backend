@@ -18,6 +18,7 @@
     "mongoose": "^5.5.14",
     "mongoose-bcrypt": "^1.6.0",
     "mongoose-timestamp": "^0.6.0",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "request": "^2.88.0"
   }
 }

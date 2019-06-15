@@ -3,11 +3,14 @@ var bodyParser = require("body-parser");
 const { SongCollection } = require("./models/songs");
 const { MoveCollection } = require("./models/moves");
 const { ScoreCollection } = require("./models/scores");
+const request = require("request");
 var cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 
 app.use(express.json({ limit: "50mb" }));
+
 app.use(
   bodyParser.urlencoded({
     limit: "50mb",
@@ -15,6 +18,7 @@ app.use(
     parameterLimit: 50000
   })
 );
+
 app.use(cors());
 
 app.get("/api/songs", (req, res, next) => {
@@ -123,6 +127,7 @@ app.post("/api/moves", (req, res, next) => {
   });
 });
 
+<<<<<<< HEAD
 app.post("/api/scores", (req, res, next) => {
   const { songId, moveId, scores } = req.body;
 
@@ -137,6 +142,28 @@ app.post("/api/scores", (req, res, next) => {
     res.send(score);
   });
 });
+=======
+const MGMT_API_ACCESS_TOKEN = process.env.MGMT_API_ACCESS_TOKEN;
+const AUTH_DOMAIN = process.env.AUTH_DOMAIN;
+
+app.get("/api/users/:userID", async (req, res, next) => {
+  const { userID } = req.params;
+
+  const options = { 
+    method: 'GET',
+    url: `https://${AUTH_DOMAIN}/api/v2/users/${userID}`,
+    headers: { authorization: `Bearer ${MGMT_API_ACCESS_TOKEN}` }
+  };
+
+  request(options, function (error, response, body) {
+    if (error) {
+      return next(err);
+    };
+  
+    res.send(body);
+  });
+})
+>>>>>>> f3efd628ffe54137c3664279d5bf769f4e2a7bb6
 
 // app.use((err, req, res) => {
 //   res.send("Something broke");
