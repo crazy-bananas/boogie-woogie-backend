@@ -127,7 +127,6 @@ app.post("/api/moves", (req, res, next) => {
   });
 });
 
-<<<<<<< HEAD
 app.post("/api/scores", (req, res, next) => {
   const { songId, moveId, scores } = req.body;
 
@@ -142,28 +141,26 @@ app.post("/api/scores", (req, res, next) => {
     res.send(score);
   });
 });
-=======
-const MGMT_API_ACCESS_TOKEN = process.env.MGMT_API_ACCESS_TOKEN;
-const AUTH_DOMAIN = process.env.AUTH_DOMAIN;
+// const MGMT_API_ACCESS_TOKEN = process.env.MGMT_API_ACCESS_TOKEN;
+// const AUTH_DOMAIN = process.env.AUTH_DOMAIN;
 
-app.get("/api/users/:userID", async (req, res, next) => {
-  const { userID } = req.params;
+// app.get("/api/users/:userID", async (req, res, next) => {
+//   const { userID } = req.params;
 
-  const options = { 
-    method: 'GET',
-    url: `https://${AUTH_DOMAIN}/api/v2/users/${userID}`,
-    headers: { authorization: `Bearer ${MGMT_API_ACCESS_TOKEN}` }
-  };
+//   const options = {
+//     method: 'GET',
+//     url: `https://${AUTH_DOMAIN}/api/v2/users/${userID}`,
+//     headers: { authorization: `Bearer ${MGMT_API_ACCESS_TOKEN}` }
+//   };
 
-  request(options, function (error, response, body) {
-    if (error) {
-      return next(err);
-    };
-  
-    res.send(body);
-  });
-})
->>>>>>> f3efd628ffe54137c3664279d5bf769f4e2a7bb6
+//   request(options, function (error, response, body) {
+//     if (error) {
+//       return next(err);
+//     };
+
+//     res.send(body);
+//   });
+// })
 
 // app.use((err, req, res) => {
 //   res.send("Something broke");
