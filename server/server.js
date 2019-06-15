@@ -5,6 +5,7 @@ const { MoveCollection } = require("./models/moves");
 const { ScoreCollection } = require("./models/scores");
 const request = require("request");
 var cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 
@@ -125,6 +126,27 @@ app.post("/api/moves", (req, res, next) => {
     res.send(move);
   });
 });
+
+const MGMT_API_ACCESS_TOKEN = process.env.MGMT_API_ACCESS_TOKEN;
+const AUTH_DOMAIN = process.env.AUTH_DOMAIN;
+
+app.get("/api/users/:userID", async (req, res, next) => {
+  const { userID } = req.params;
+
+  const options = { 
+    method: 'GET',
+    url: `https://${AUTH_DOMAIN}/api/v2/users/${userID}`,
+    headers: { authorization: `Bearer ${MGMT_API_ACCESS_TOKEN}` }
+  };
+
+  request(options, function (error, response, body) {
+    if (error) {
+      return next(err);
+    };
+  
+    res.send(body);
+  });
+})
 
 // app.use((err, req, res) => {
 //   res.send("Something broke");
