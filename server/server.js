@@ -123,6 +123,21 @@ app.post("/api/moves", (req, res, next) => {
   });
 });
 
+app.post("/api/scores", (req, res, next) => {
+  const { songId, moveId, scores } = req.body;
+
+  const newScore = new ScoreCollection({
+    songId,
+    moveId,
+    scores
+  }).save((err, score) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(score);
+  });
+});
+
 // app.use((err, req, res) => {
 //   res.send("Something broke");
 // });
