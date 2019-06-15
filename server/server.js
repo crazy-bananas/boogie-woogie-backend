@@ -128,18 +128,33 @@ app.post("/api/moves", (req, res, next) => {
 });
 
 app.post("/api/scores", (req, res, next) => {
-  const { songId, moveId, scores } = req.body;
-
+  const { songId, moveId, score, user } = req.body;
+  console.log(req.body);
   const newScore = new ScoreCollection({
     songId,
     moveId,
-    scores
+    score,
+    user
   }).save((err, score) => {
     if (err) {
       return next(err);
     }
     res.send(score);
   });
+});
+
+app.get("/api/scores/:songId/:moveId", (req, res, next) => {
+  const moves = ScoreCollection.find({
+    songId: req.params.songId,
+    moveId: req.params.moveId
+  });
+  moves
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 // const MGMT_API_ACCESS_TOKEN = process.env.MGMT_API_ACCESS_TOKEN;
 // const AUTH_DOMAIN = process.env.AUTH_DOMAIN;
