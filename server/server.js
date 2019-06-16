@@ -121,6 +121,7 @@ function isValidMoveData(songcode, moves, name) {
 }
 
 app.post("/api/moves", (req, res, next) => {
+  console.log(" moves");
   const { songcode, moves, name } = req.body;
 
   if (!isValidMoveData(songcode, moves, name)) {
