@@ -52,17 +52,31 @@ app.post("/api/songs", (req, res, next) => {
   });
 });
 
-app.get("/api/songs/:titleOrArtist", (req, res, next) => {
+app.get("/api/songs/:titleOrArtistOrCode", (req, res, next) => {
   const songs = SongCollection.find({
     $or: [
       {
         title: {
-          $regex: new RegExp("^" + req.params.titleOrArtist.toLowerCase(), "i")
+          $regex: new RegExp(
+            "^" + req.params.titleOrArtistOrCode.toLowerCase(),
+            "i"
+          )
         }
       },
       {
         artist: {
-          $regex: new RegExp("^" + req.params.titleOrArtist.toLowerCase(), "i")
+          $regex: new RegExp(
+            "^" + req.params.titleOrArtistOrCode.toLowerCase(),
+            "i"
+          )
+        }
+      },
+      {
+        code: {
+          $regex: new RegExp(
+            "^" + req.params.titleOrArtistOrCode.toLowerCase(),
+            "i"
+          )
         }
       }
     ]
