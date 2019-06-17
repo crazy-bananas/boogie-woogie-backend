@@ -30,19 +30,19 @@ app.get("/api/songs", (req, res, next) => {
   });
 });
 
-function isValidSongData(title, artist, url) {
-  return title && artist && url;
+function isValidSongData(title, url) {
+  return title && url;
 }
 
 app.post("/api/songs", (req, res, next) => {
-  const { title, artist, code } = req.body;
+  const { title, code } = req.body;
 
-  if (!isValidSongData(title, artist, code)) {
+  if (!isValidSongData(title, code)) {
     res.send("Invalid song data");
   }
   const newSong = new SongCollection({
     title,
-    artist,
+
     code
   }).save((err, song) => {
     if (err) {
@@ -52,31 +52,18 @@ app.post("/api/songs", (req, res, next) => {
   });
 });
 
-app.get("/api/songs/:titleOrArtistOrCode", (req, res, next) => {
+app.get("/api/songs/:titleOrCode", (req, res, next) => {
   const songs = SongCollection.find({
     $or: [
       {
         title: {
-          $regex: new RegExp(
-            "^" + req.params.titleOrArtistOrCode.toLowerCase(),
-            "i"
-          )
+          $regex: new RegExp("^" + req.params.titleOrCode.toLowerCase(), "i")
         }
       },
-      {
-        artist: {
-          $regex: new RegExp(
-            "^" + req.params.titleOrArtistOrCode.toLowerCase(),
-            "i"
-          )
-        }
-      },
+
       {
         code: {
-          $regex: new RegExp(
-            "^" + req.params.titleOrArtistOrCode.toLowerCase(),
-            "i"
-          )
+          $regex: new RegExp("^" + req.params.titleOrCode.toLowerCase(), "i")
         }
       }
     ]
@@ -91,24 +78,24 @@ app.get("/api/songs/:titleOrArtistOrCode", (req, res, next) => {
     });
 });
 
-app.get("/api/songs/:title/:artist/", (req, res, next) => {
-  const { title, artist } = req.params;
-  const song = SongCollection.find({
-    title: {
-      $regex: new RegExp("^" + title.toLowerCase(), "i")
-    },
-    artist: {
-      $regex: new RegExp("^" + artist.toLowerCase(), "i")
-    }
-  });
-  song
-    .then(foundSong => {
-      res.send(foundSong);
-    })
-    .catch(err => {
-      next(err);
-    });
-});
+// app.get("/api/songs/:title/:artist/", (req, res, next) => {
+//   const { title, artist } = req.params;
+//   const song = SongCollection.find({
+//     title: {
+//       $regex: new RegExp("^" + title.toLowerCase(), "i")
+//     },
+//     artist: {
+//       $regex: new RegExp("^" + artist.toLowerCase(), "i")
+//     }
+//   });
+//   song
+//     .then(foundSong => {
+//       res.send(foundSong);
+//     })
+//     .catch(err => {
+//       next(err);
+//     });
+// });
 
 app.get("/api/moves/:songcodeOrMoveid", (req, res, next) => {
   let moves;
