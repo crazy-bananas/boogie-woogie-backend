@@ -79,25 +79,6 @@ app.get("/api/songs/:titleOrCode", (req, res, next) => {
     });
 });
 
-// app.get("/api/songs/:title/:artist/", (req, res, next) => {
-//   const { title, artist } = req.params;
-//   const song = SongCollection.find({
-//     title: {
-//       $regex: new RegExp("^" + title.toLowerCase(), "i")
-//     },
-//     artist: {
-//       $regex: new RegExp("^" + artist.toLowerCase(), "i")
-//     }
-//   });
-//   song
-//     .then(foundSong => {
-//       res.send(foundSong);
-//     })
-//     .catch(err => {
-//       next(err);
-//     });
-// });
-
 app.get("/api/moves/:songcodeOrMoveid", (req, res, next) => {
   let moves;
   if (req.params.songcodeOrMoveid.length < 12) {
