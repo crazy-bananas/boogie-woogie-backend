@@ -5,6 +5,7 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const { SongCollection } = require("./models/songs");
 const { MoveCollection } = require("./models/moves");
 const { ScoreCollection } = require("./models/scores");
+const { UserCollection } = require("./models/users");
 const request = require("request");
 var cors = require("cors");
 require("dotenv").config();
@@ -141,14 +142,15 @@ app.post("/api/moves", (req, res, next) => {
 });
 
 app.post("/api/scores", (req, res, next) => {
-  const { songId, moveId, score, user, pic } = req.body;
+  const { songId, moveId, score, user, pic, userId } = req.body;
 
   const newScore = new ScoreCollection({
     songId,
     moveId,
     score,
     user,
-    pic
+    pic,
+    userId
   }).save((err, score) => {
     if (err) {
       return next(err);
@@ -170,6 +172,38 @@ app.get("/api/scores/:songId/:moveId", (req, res, next) => {
       next(err);
     });
 });
+
+app.get("/api/scores/:userId", (req, res, next) => {
+  const scoreData = ScoreCollection.find({
+    userId: req.params.userId
+  });
+  scoreData
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+app.post("/api/users", (req, res, next) => {
+  const { userId, email, name, nickname, picture, updated_at } = req.body;
+
+  const newUser = new UserCollection({
+    userId,
+    email,
+    name,
+    nickname,
+    picture,
+    updated_at
+  }).save((err, user) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(user);
+  });
+});
+
 const MGMT_API_ACCESS_TOKEN = process.env.MGMT_API_ACCESS_TOKEN;
 const AUTH_DOMAIN = process.env.AUTH_DOMAIN;
 

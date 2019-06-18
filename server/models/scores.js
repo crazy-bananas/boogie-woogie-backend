@@ -9,7 +9,8 @@ const scoreSchema = new mongoose.Schema({
   moveId: { type: String },
   user: { type: String },
   score: { type: Number },
-  pic: { type: String }
+  pic: { type: String },
+  userId: { type: String }
 });
 scoreSchema.index({ songId: 1, moveId: 1 }, { unique: true });
 
