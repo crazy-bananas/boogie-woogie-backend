@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 // });
 
 const userSchema = new mongoose.Schema({
-  userId: { type: String, type: { unique: true } },
+  userId: { type: String, unique: true },
   email: { type: String },
   name: { type: String },
   nickname: { type: String },
