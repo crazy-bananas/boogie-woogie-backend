@@ -141,8 +141,8 @@ app.post("/api/moves", (req, res, next) => {
 });
 
 app.post("/api/scores", (req, res, next) => {
-  const { songId, moveId, score, user } = req.body;
-  console.log(req.body);
+  const { songId, moveId, score, user, pic } = req.body;
+
   const newScore = new ScoreCollection({
     songId,
     moveId,
