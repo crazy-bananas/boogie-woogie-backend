@@ -147,7 +147,8 @@ app.post("/api/scores", (req, res, next) => {
     songId,
     moveId,
     score,
-    user
+    user,
+    pic
   }).save((err, score) => {
     if (err) {
       return next(err);
