@@ -12,7 +12,7 @@ const scoreSchema = new mongoose.Schema({
   pic: { type: String },
   userId: { type: String }
 });
-scoreSchema.index({ songId: 1, moveId: 1 }, { unique: true });
+// scoreSchema.index({ songId: 1, moveId: 1 }, { unique: true });
 
 //songSchema.set("autoIndex", false);
 const ScoreCollection = mongoose.model("scores", scoreSchema);
