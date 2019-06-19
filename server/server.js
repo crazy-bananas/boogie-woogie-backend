@@ -140,12 +140,10 @@ app.post("/api/scores", (req, res, next) => {
   });
 });
 
-app.get("/api/scores/:songId/:moveId", (req, res, next) => {
-  const moves = ScoreCollection.find({
-    songId: req.params.songId,
-    moveId: req.params.moveId
-  });
-  moves
+app.get("/api/scores/", (req, res, next) => {
+  const scores = ScoreCollection.find();
+
+  scores
     .then(data => {
       res.send(data);
     })
@@ -154,17 +152,48 @@ app.get("/api/scores/:songId/:moveId", (req, res, next) => {
     });
 });
 
-app.get("/api/scores/:userId", (req, res, next) => {
-  const scoreData = ScoreCollection.find({
-    userId: req.params.userId
-  });
-  scoreData
+app.get("/api/scores/:songId/:moveId", (req, res, next) => {
+  const scores = ScoreCollection.find({
+    songId: req.params.songId,
+    moveId: req.params.moveId
+  })
+    .limit(10)
+    .sort({ score: 1 });
+
+  scores
     .then(data => {
+      console.log(data);
       res.send(data);
     })
     .catch(err => {
       next(err);
     });
+});
+
+app.get("/api/scores/:userId", async (req, res, next) => {
+  const { userId } = req.params;
+  const scoreData = await ScoreCollection.find({
+    userId
+  });
+  const result = [];
+  const songIds = scoreData.map(sd => sd.songId);
+  const songData = await SongCollection.find({
+    code: { $in: songIds }
+  });
+  scoreData.forEach(score => {
+    for (let i = 0; i < songData.length; i++) {
+      if (songData[i].code === score.songId) {
+        result.push({
+          score: score.score,
+          user: score.user,
+          title: songData[i].title
+        });
+      }
+    }
+  });
+
+  res.send(result);
+  // Continue.
 });
 
 app.post("/api/users", (req, res, next) => {

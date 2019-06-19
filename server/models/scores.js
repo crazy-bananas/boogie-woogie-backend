@@ -6,11 +6,9 @@ const mongoose = require("mongoose");
 
 const scoreSchema = new mongoose.Schema({
   songId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "songs",
-    autopopulate: true
+    type: String
   },
-  moveId: { type: mongoose.Schema.Types.ObjectId, ref: "moves" },
+  moveId: { type: String },
   user: { type: String },
   score: { type: Number },
   pic: { type: String },
