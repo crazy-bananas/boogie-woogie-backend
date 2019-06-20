@@ -1,16 +1,21 @@
 const mongoose = require("mongoose");
-const scores = new mongoose.Schema({
-  score: { type: Number },
-  user: { type: String }
-});
+// const scores = new mongoose.Schema({
+//   score: { type: Number },
+//   user: { type: String }
+// });
 
 const scoreSchema = new mongoose.Schema({
-  songId: { type: String },
+  songId: {
+    type: String
+  },
   moveId: { type: String },
-  scores: [{ type: scores }]
+  user: { type: String },
+  score: { type: Number },
+  pic: { type: String },
+  userId: { type: String }
 });
-scoreSchema.index({ songId: 1, moveId: 1 }, { unique: true });
-
+// scoreSchema.index({ songId: 1, moveId: 1 }, { unique: true });
+scoreSchema.plugin(require("mongoose-autopopulate"));
 //songSchema.set("autoIndex", false);
 const ScoreCollection = mongoose.model("scores", scoreSchema);
 

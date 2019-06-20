@@ -1,8 +1,11 @@
 const express = require("express");
 var bodyParser = require("body-parser");
+
+const ObjectId = require("mongoose").Types.ObjectId;
 const { SongCollection } = require("./models/songs");
 const { MoveCollection } = require("./models/moves");
 const { ScoreCollection } = require("./models/scores");
+const { UserCollection } = require("./models/users");
 const request = require("request");
 var cors = require("cors");
 require("dotenv").config();
@@ -28,19 +31,19 @@ app.get("/api/songs", (req, res, next) => {
   });
 });
 
-function isValidSongData(title, artist, url) {
-  return title && artist && url;
+function isValidSongData(title, url) {
+  return title && url;
 }
 
 app.post("/api/songs", (req, res, next) => {
-  const { title, artist, code } = req.body;
+  const { title, code } = req.body;
 
-  if (!isValidSongData(title, artist, code)) {
+  if (!isValidSongData(title, code)) {
     res.send("Invalid song data");
   }
   const newSong = new SongCollection({
     title,
-    artist,
+
     code
   }).save((err, song) => {
     if (err) {
@@ -50,17 +53,18 @@ app.post("/api/songs", (req, res, next) => {
   });
 });
 
-app.get("/api/songs/:titleOrArtist", (req, res, next) => {
+app.get("/api/songs/:titleOrCode", (req, res, next) => {
   const songs = SongCollection.find({
     $or: [
       {
         title: {
-          $regex: new RegExp("^" + req.params.titleOrArtist.toLowerCase(), "i")
+          $regex: new RegExp("^" + req.params.titleOrCode.toLowerCase(), "i")
         }
       },
+
       {
-        artist: {
-          $regex: new RegExp("^" + req.params.titleOrArtist.toLowerCase(), "i")
+        code: {
+          $regex: new RegExp("^" + req.params.titleOrCode.toLowerCase(), "i")
         }
       }
     ]
@@ -75,27 +79,17 @@ app.get("/api/songs/:titleOrArtist", (req, res, next) => {
     });
 });
 
-app.get("/api/songs/:title/:artist/", (req, res, next) => {
-  const { title, artist } = req.params;
-  const song = SongCollection.find({
-    title: {
-      $regex: new RegExp("^" + title.toLowerCase(), "i")
-    },
-    artist: {
-      $regex: new RegExp("^" + artist.toLowerCase(), "i")
-    }
-  });
-  song
-    .then(foundSong => {
-      res.send(foundSong);
-    })
-    .catch(err => {
-      next(err);
+app.get("/api/moves/:songcodeOrMoveid", (req, res, next) => {
+  let moves;
+  if (req.params.songcodeOrMoveid.length < 12) {
+    moves = MoveCollection.find({
+      songcode: req.params.songcodeOrMoveid
     });
-});
-
-app.get("/api/moves/:songcode", (req, res, next) => {
-  const moves = MoveCollection.find({ songcode: req.params.songcode });
+  } else {
+    moves = MoveCollection.find({
+      _id: req.params.songcodeOrMoveid
+    });
+  }
   moves
     .then(data => {
       res.send(data);
@@ -110,6 +104,7 @@ function isValidMoveData(songcode, moves, name) {
 }
 
 app.post("/api/moves", (req, res, next) => {
+  console.log(" moves");
   const { songcode, moves, name } = req.body;
 
   if (!isValidMoveData(songcode, moves, name)) {
@@ -127,26 +122,118 @@ app.post("/api/moves", (req, res, next) => {
   });
 });
 
+app.post("/api/scores", (req, res, next) => {
+  const { songId, moveId, score, user, pic, userId } = req.body;
+
+  const newScore = new ScoreCollection({
+    songId,
+    moveId,
+    score,
+    user,
+    pic,
+    userId
+  }).save((err, score) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(score);
+  });
+});
+
+app.get("/api/scores/", (req, res, next) => {
+  const scores = ScoreCollection.find();
+
+  scores
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+app.get("/api/scores/:songId/:moveId", (req, res, next) => {
+  const scores = ScoreCollection.find({
+    songId: req.params.songId,
+    moveId: req.params.moveId
+  })
+    .limit(10)
+    .sort({ score: 1 });
+
+  scores
+    .then(data => {
+      console.log(data);
+      res.send(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+app.get("/api/scores/:userId", async (req, res, next) => {
+  const { userId } = req.params;
+  const scoreData = await ScoreCollection.find({
+    userId
+  });
+  const result = [];
+  const songIds = scoreData.map(sd => sd.songId);
+  const songData = await SongCollection.find({
+    code: { $in: songIds }
+  });
+  scoreData.forEach(score => {
+    for (let i = 0; i < songData.length; i++) {
+      if (songData[i].code === score.songId) {
+        result.push({
+          score: score.score,
+          user: score.user,
+          title: songData[i].title
+        });
+      }
+    }
+  });
+
+  res.send(result);
+  // Continue.
+});
+
+app.post("/api/users", (req, res, next) => {
+  const { userId, email, name, nickname, picture, updated_at } = req.body;
+
+  const newUser = new UserCollection({
+    userId,
+    email,
+    name,
+    nickname,
+    picture,
+    updated_at
+  }).save((err, user) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(user);
+  });
+});
+
 const MGMT_API_ACCESS_TOKEN = process.env.MGMT_API_ACCESS_TOKEN;
 const AUTH_DOMAIN = process.env.AUTH_DOMAIN;
 
 app.get("/api/users/:userID", async (req, res, next) => {
   const { userID } = req.params;
 
-  const options = { 
-    method: 'GET',
+  const options = {
+    method: "GET",
     url: `https://${AUTH_DOMAIN}/api/v2/users/${userID}`,
     headers: { authorization: `Bearer ${MGMT_API_ACCESS_TOKEN}` }
   };
 
-  request(options, function (error, response, body) {
+  request(options, function(error, response, body) {
     if (error) {
       return next(err);
-    };
-  
+    }
+
     res.send(body);
   });
-})
+});
 
 // app.use((err, req, res) => {
 //   res.send("Something broke");

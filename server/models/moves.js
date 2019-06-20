@@ -27,8 +27,8 @@ const singleMoveSchema = new mongoose.Schema({
 
 const movesSchema = new mongoose.Schema({
   songcode: { type: String },
-  moves: [{ type: singleMoveSchema }],
-  name: { type: String, unique: true }
+  moves: [{ type: singleMoveSchema, unique: true }],
+  name: { type: String }
 });
 
 //songSchema.set("autoIndex", false);
