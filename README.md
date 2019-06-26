@@ -25,8 +25,6 @@ AUTH_DOMAIN=<Domain of your Auth account>
 PORT=<Port where you want to start your server>
 ``` 
 
-First four environment variables should be from MongoDB and next two should be from Auth0. Last environment variable is the port number where you want to start your server
-
 ## Enpoints
 - GET /api/songs  
 - POST /api/songs  
