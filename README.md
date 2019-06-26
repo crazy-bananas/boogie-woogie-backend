@@ -15,28 +15,28 @@ In order to get started you need following accounts:
 - Create .env file in root directory
 
 ## Environment variables
-DB_USER_NAME 
-DB_PASSWORD  
-COLLECTION_NAME_SONGS  
-DB_URL  
-MGMT_API_ACCESS_TOKEN  
-AUTH_DOMAIN  
-PORT  
+- DB_USER_NAME 
+- DB_PASSWORD  
+- COLLECTION_NAME_SONGS  
+- DB_URL  
+- MGMT_API_ACCESS_TOKEN  
+- AUTH_DOMAIN  
+- PORT  
 
 First four environment variables should be from MongoDB and next two should be from Auth0. Last environment variable is the port number where you want to start your server
 
 ## Enpoints
-GET /api/songs  
-POST /api/songs  
-GET /api/songs/:titleOrCode  
-GET /api/moves/:songcodeOrMoveid  
-POST /api/moves  
-POST /api/scores  
-GET /api/scores  
-GET /api/scores/:songId/:moveId  
-GET /api/scores/:userId  
-POST /api/users  
-GET /api/users/:userID  
+- GET /api/songs  
+- POST /api/songs  
+- GET /api/songs/:titleOrCode  
+- GET /api/moves/:songcodeOrMoveid  
+- POST /api/moves  
+- POST /api/scores  
+- GET /api/scores  
+- GET /api/scores/:songId/:moveId  
+- GET /api/scores/:userId  
+- POST /api/users  
+- GET /api/users/:userID  
 
 ## How to get started
 
@@ -48,6 +48,11 @@ Start the server on PORT specified in environment variables Or your system port
 ```
 yarn start
 ```
+Once you start server, following models should be created in MongoDB in your database
+- songs
+- moves
+- scores
+- users
 
 ## Acknowledgement
 Code Chrysalis
