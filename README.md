@@ -15,13 +15,15 @@ In order to get started you need following accounts:
 - Create .env file in root directory
 
 ## Environment variables
-- DB_USER_NAME 
-- DB_PASSWORD  
-- COLLECTION_NAME_SONGS  
-- DB_URL  
-- MGMT_API_ACCESS_TOKEN  
-- AUTH_DOMAIN  
-- PORT  
+```
+DB_USER_NAME=<MongoDB username>
+DB_PASSWORD=<MongoDB password>
+COLLECTION_NAME_SONGS=<Database name in MongoDB>
+DB_URL=<URL to connect to MongoDB>
+MGMT_API_ACCESS_TOKEN=<Auth0 API Access Token>
+AUTH_DOMAIN=<Domain of your Auth account>
+PORT=<Port where you want to start your server>
+``` 
 
 First four environment variables should be from MongoDB and next two should be from Auth0. Last environment variable is the port number where you want to start your server
 
