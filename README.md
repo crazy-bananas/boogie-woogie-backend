@@ -26,17 +26,17 @@ PORT
 First four environment variables should be from MongoDB and next two should be from Auth0. Last environment variable is the port number where you want to start your server
 
 ## Enpoints
-GET /api/songs
-POST /api/songs
-GET /api/songs/:titleOrCode
-GET /api/moves/:songcodeOrMoveid
-POST /api/moves
-POST /api/scores
-GET /api/scores
-GET /api/scores/:songId/:moveId
-GET /api/scores/:userId
-POST /api/users
-GET /api/users/:userID
+GET /api/songs . 
+POST /api/songs . 
+GET /api/songs/:titleOrCode . 
+GET /api/moves/:songcodeOrMoveid . 
+POST /api/moves . 
+POST /api/scores . 
+GET /api/scores . 
+GET /api/scores/:songId/:moveId  
+GET /api/scores/:userId . 
+POST /api/users . 
+GET /api/users/:userID  
 
 ## How to get started
 
