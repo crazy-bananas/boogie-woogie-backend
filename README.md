@@ -8,24 +8,24 @@ Dancing game app which scores your dance moves and also allows you to save your 
 - Mongoose
 
 ## Pre-requisites before getting started
-In order to get started you need following accounts:
+In order to get started, you need following accounts:
 
-- Mongo DB database locally on your computer OR on cloud like Atlas
+- Mongo DB database locally on your computer or on a cloud service like Atlas
 - Auth0 account
-- Create .env file in root directory
+- .env file in root directory
 
 ## Environment variables
 ```
 DB_USER_NAME=<MongoDB username>
 DB_PASSWORD=<MongoDB password>
 COLLECTION_NAME_SONGS=<Database name in MongoDB>
-DB_URL=<URL to connect to MongoDB>
+DB_URL=<URL to connect to your MongoDB>
 MGMT_API_ACCESS_TOKEN=<Auth0 API Access Token>
 AUTH_DOMAIN=<Domain of your Auth account>
-PORT=<Port where you want to start your server>
+PORT=<Port which server should listen to>
 ``` 
 
-## Enpoints
+## RESTful Enpoints
 - GET /api/songs  
 - POST /api/songs  
 - GET /api/songs/:titleOrCode  
