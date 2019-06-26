@@ -1,5 +1,5 @@
 # Overview 
-Dancing game app which scores your dance moves and also allows you to save your dance moves. This project was created as a part of senior project during our time at Code Chrysalis. We created this project in 3 weeks. This repository has code only for the backend of this project. Frontend repo is here https://github.com/crazy-bananas/boogie-woogie
+Dancing game app which scores your dance moves and also allows you to save your dance moves. This project was created as a part of senior project during our time at Code Chrysalis. We created this project in 3 weeks. This repository has code only for the backend of this project. Frontend repo is [here](https://github.com/crazy-bananas/boogie-woogie)
 
 ## Technologies used:
 
@@ -55,4 +55,4 @@ Once you start server, following models should be created in MongoDB in your dat
 - users
 
 ## Acknowledgement
-Code Chrysalis
+[Code Chrysalis](https://www.codechrysalis.io/)
