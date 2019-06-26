@@ -3,7 +3,7 @@ Dancing game app which scores your dance moves and also allows you to save your 
 
 ## Technologies used:
 
-- Express server
+- ExpressJS server
 - MongoDB
 - Mongoose
 
