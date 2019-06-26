@@ -41,9 +41,13 @@ GET /api/users/:userID
 ## How to get started
 
 To install dependencies
-```yarn```
+```
+yarn
+```
 Start the server on PORT specified in environment variables Or your system port
-```yarn start```
+```
+yarn start
+```
 
 ## Acknowledgement
 Code Chrysalis
